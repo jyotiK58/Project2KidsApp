@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+
+    <ProgressBar
+        android:id="@+id/timerProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/questionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="Which side has more?"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerProgressBar" />
+
+    <ImageView
+        android:id="@+id/frog1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:src="@mipmap/frog"
+        app:layout_constraintEnd_toStartOf="@+id/frog2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/questionText" />
+
+    <ImageView
+        android:id="@+id/frog2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/frog"
+        app:layout_constraintEnd_toStartOf="@+id/frog3"
+        app:layout_constraintStart_toEndOf="@+id/frog1"
+        app:layout_constraintTop_toTopOf="@+id/frog1" />
+
+    <ImageView
+        android:id="@+id/frog3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/frog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/frog2"
+        app:layout_constraintTop_toTopOf="@+id/frog2" />
+
+    <ImageView
+        android:id="@+id/monkey1"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="35dp"
+        android:src="@mipmap/monkey"
+        app:layout_constraintEnd_toStartOf="@+id/monkey2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frog1" />
+
+    <ImageView
+        android:id="@+id/monkey2"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:src="@mipmap/monkey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/monkey1"
+        app:layout_constraintTop_toTopOf="@+id/monkey1" />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -97,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                             if (response.equals("Connected")) {
                                 Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(RegisterActivity.this, " Unexpected" + response, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, " " + response, Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

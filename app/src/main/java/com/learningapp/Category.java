@@ -18,10 +18,10 @@ public class Category extends AppCompatActivity {
         // Get references to each card view
         CardView cardAlphabets = findViewById(R.id.cardAlphabets);
         CardView cardAnimals = findViewById(R.id.cardAnimals);
-        CardView cardMusic = findViewById(R.id.cardMusic);
         CardView cardStories = findViewById(R.id.cardStories);
-        CardView cardColoring = findViewById(R.id.cardColoring);
+        CardView cardColoring = findViewById(R.id.cardColor);
         CardView cardNumbers = findViewById(R.id.cardNumbers);
+
 
         // Set click listeners for each card view
         cardAlphabets.setOnClickListener(new View.OnClickListener() {
@@ -42,14 +42,7 @@ public class Category extends AppCompatActivity {
             }
         });
 
-        cardMusic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Start a new activity for Music
-                Intent intent = new Intent(Category.this, FruitsActivity.class);
-                startActivity(intent);
-            }
-        });
+
 
         cardStories.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,4 +71,14 @@ public class Category extends AppCompatActivity {
             }
         });
     }
+//     fruits.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            // Start a new activity for Numbers
+//            Intent intent = new Intent(Category.this, FruitsActivity    .class);
+//            startActivity(intent);
+//        }
+//    });
 }
+
+

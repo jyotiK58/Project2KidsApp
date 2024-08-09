@@ -8,12 +8,7 @@
     android:background="#FFFFFF"
     android:layout_margin="15dp">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="colors.jpeg"
-        tools:ignore="MissingConstraints" />
+
 
     <TextView
         android:id="@+id/home"
@@ -76,7 +71,7 @@
 
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardNumbers"
+                android:id="@+id/cardNumberQuiz"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
@@ -100,7 +95,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Numbers"
+                        android:text="Numbers Quiz"
                         android:textAlignment="center"
                         android:textColor="#000000"
                         android:padding="8dp" />
@@ -129,7 +124,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/monk"
+                        android:src="@mipmap/colors"
                         android:background="#A5D6A7" />
 
                     <TextView
@@ -199,7 +194,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/shape_"
+                        android:src="@mipmap/shape"
                         android:background="#BBDEFB" />
 
                     <TextView
@@ -234,7 +229,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/birds"
+                        android:src="@color/cardview_dark_background"
                         android:background="#B39DDB" />
 
                     <TextView
@@ -271,7 +266,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/flowers"
+                        android:src="@mipmap/colors"
                         android:background="#FFD54F" />
 
                     <TextView
@@ -305,7 +300,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/fruits"
+                        android:src="@mipmap/colors"
                         android:background="#FFD54F" />
 
                     <TextView
@@ -339,7 +334,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/happy"
+                        android:src="@mipmap/colors"
                         android:background="#FFD54F" />
 
                     <TextView
@@ -373,7 +368,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/jan"
+                        android:src="@mipmap/colors"
                         android:background="#FFD54F" />
 
                     <TextView
@@ -407,7 +402,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/sunday"
+                        android:src="@mipmap/colors"
                         android:background="#FFD54F" />
 
                     <TextView
@@ -441,7 +436,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/weather"
+                        android:src="@mipmap/colors"
                         android:background="#FFD54F" />
 
                     <TextView

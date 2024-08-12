@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.android.volley.Request;
@@ -58,23 +57,16 @@ public class AlphabetsActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(TAG, "Raw response: " + response);
                         List<String> urls = extractImageUrlsFromHtml(response);
-                        Log.d(TAG, "Number of image URLs extracted: " + urls.size());
                         imageUrls.clear();
                         imageUrls.addAll(urls);
                         adapter.notifyDataSetChanged();
-
-                        if (imageUrls.isEmpty()) {
-                            Toast.makeText(AlphabetsActivity.this, "No images found", Toast.LENGTH_LONG).show();
-                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "Volley error: " + error.getMessage());
-                        Toast.makeText(AlphabetsActivity.this, "Error fetching images", Toast.LENGTH_LONG).show();
                     }
                 });
         queue.add(stringRequest);
@@ -92,7 +84,6 @@ public class AlphabetsActivity extends AppCompatActivity {
                         src = "http://10.0.2.2/KidsApp/" + src;
                     }
                     urls.add(src);
-                    Log.d(TAG, "Found image URL: " + src);
                 }
             }
         } catch (Exception e) {

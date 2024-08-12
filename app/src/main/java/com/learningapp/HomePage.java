@@ -31,7 +31,7 @@ public class HomePage extends AppCompatActivity {
         quiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomePage.this, GameActivity.class);
+                Intent intent = new Intent(HomePage.this, QuizCategory.class);
                 startActivity(intent);
             }
         });

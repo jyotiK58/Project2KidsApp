@@ -60,12 +60,7 @@ public class NumbersActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(TAG, "Raw response: " + response);
                         List<String> urls = extractImageUrlsFromHtml(response);
-                        Log.d(TAG, "Number of image URLs extracted: " + urls.size());
-                        for (String url : urls) {
-                            Log.d(TAG, "Extracted URL: " + url);
-                        }
                         imageUrls.clear();
                         imageUrls.addAll(urls);
                         adapter.notifyDataSetChanged();
@@ -78,8 +73,7 @@ public class NumbersActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, "Volley error: " + error.toString());
-                        Toast.makeText(NumbersActivity.this, "Error fetching images: " + error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(NumbersActivity.this, "Error fetching images", Toast.LENGTH_LONG).show();
                     }
                 });
         queue.add(stringRequest);
@@ -97,11 +91,10 @@ public class NumbersActivity extends AppCompatActivity {
                         src = "http://10.0.2.2/KidsApp/" + src;
                     }
                     urls.add(src);
-                    Log.d(TAG, "Found image URL: " + src);
                 }
             }
         } catch (Exception e) {
-            Log.e(TAG, "Error parsing HTML: " + e.getMessage());
+            Log.e(TAG, "Error parsing HTML", e);
         }
         return urls;
     }
@@ -122,7 +115,6 @@ public class NumbersActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             String url = urls.get(position);
-            Log.d(TAG, "Loading image from URL: " + url);
             Picasso.get().load(url)
                     .placeholder(R.drawable.ic_launcher_background)
                     .error(R.drawable.ic_home)
@@ -130,7 +122,7 @@ public class NumbersActivity extends AppCompatActivity {
                     .into(holder.numberImageView, new com.squareup.picasso.Callback() {
                         @Override
                         public void onSuccess() {
-                            Log.d(TAG, "Image loaded successfully (from cache): " + url);
+                            // Image loaded successfully from cache
                         }
 
                         @Override
@@ -139,17 +131,7 @@ public class NumbersActivity extends AppCompatActivity {
                             Picasso.get().load(url)
                                     .placeholder(R.drawable.ic_launcher_background)
                                     .error(R.drawable.ic_home)
-                                    .into(holder.numberImageView, new com.squareup.picasso.Callback() {
-                                        @Override
-                                        public void onSuccess() {
-                                            Log.d(TAG, "Image loaded successfully (from network): " + url);
-                                        }
-
-                                        @Override
-                                        public void onError(Exception e) {
-                                            Log.e(TAG, "Error loading image: " + url, e);
-                                        }
-                                    });
+                                    .into(holder.numberImageView);
                         }
                     });
         }

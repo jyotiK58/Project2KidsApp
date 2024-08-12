@@ -31,6 +31,12 @@ android {
     }
 }
 
+configurations {
+    implementation {
+        exclude(group = "com.intellij", module = "annotations")
+    }
+}
+
 dependencies {
 
     implementation(libs.appcompat)
@@ -38,16 +44,26 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+
     implementation(libs.room.compiler)
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.volley)
+    implementation(libs.lottie)
+    implementation(libs.picasso)
+    implementation(libs.jsoup)
+    implementation(libs.support.annotations)
+    implementation("com.squareup.picasso:picasso:2.71828")
+    implementation(libs.androidx.recyclerview.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation ("com.airbnb.android:lottie:5.0.3")
-    implementation ("androidx.viewpager2:viewpager2:1.0.0")
-    implementation("com.android.volley:volley:1.2.1")
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation("com.squareup.picasso:picasso:2.71828")
-    implementation ("org.jsoup:jsoup:1.14.3")
+
+
+
+
+
+
+   }
 
 
 
@@ -59,4 +75,4 @@ dependencies {
 
 
 
-}
+

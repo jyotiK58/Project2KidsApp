@@ -32,13 +32,11 @@
         <activity android:name=".NumbersActivity" android:exported="false"/>
         <activity android:name=".AlphabetsActivity" android:exported="false"/>
         <activity android:name=".AnimalsActivity" android:exported="false"/>
-
         <activity android:name=".Shapes" android:exported="false"/>
-        <activity android:name=".GameActivity" android:exported="false"/>
-        <activity android:name=".ResultActivity" android:exported="false"/>
         <activity android:name=".QuizCategory" android:exported="false"/>
-
-
+        <activity android:name=".QuizActivity" android:exported="false"/>
+        <activity android:name=".QuizResult" android:exported="false"/>
+<!--        <activity android:name="com.learningapp.subpackage.QuizQuestion" android:exported="false"/>-->
 
         <activity
             android:name=".MainActivity"

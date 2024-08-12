@@ -6,7 +6,6 @@
     android:padding="10dp"
     android:background="#FFFFFF">
 
-
     <RelativeLayout
         android:id="@+id/topContainer"
         android:layout_width="match_parent"
@@ -28,7 +27,6 @@
             android:text="Which side has more?"
             android:textSize="24sp" />
     </RelativeLayout>
-
 
     <LinearLayout
         android:id="@+id/imageContainer"

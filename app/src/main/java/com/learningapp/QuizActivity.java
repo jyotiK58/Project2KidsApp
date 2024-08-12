@@ -1,12 +1,15 @@
 package com.learningapp;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -20,29 +23,53 @@ public class QuizActivity extends AppCompatActivity {
 
     private static final String TAG = "QuizActivity";
     private static final String QUESTIONS_URL = "http://10.0.2.2/KidsApp/fetch_quiz.php?category_id=";
-    private RecyclerView recyclerView;
-    private QuizAdapter quizAdapter;
-    private List<QuizQuestion> questionList;
+    private TextView questionText;
+    private LinearLayout answersContainer;
+    private List<QuizQuestion> questions;
+    private int currentQuestionIndex = 0;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.q_display_question);
+        setContentView(R.layout.q_activity_quiz);
 
-        recyclerView = findViewById(R.id.answers_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        questionList = new ArrayList<>();
-        quizAdapter = new QuizAdapter(questionList);
-        recyclerView.setAdapter(quizAdapter);
+        questionText = findViewById(R.id.question_text);
+        answersContainer = findViewById(R.id.answers_container);
 
         int categoryId = 1; // Replace with your desired category ID
         new FetchQuestionsTask().execute(categoryId);
     }
 
-    private class FetchQuestionsTask extends AsyncTask<Integer, Void, String> {
+    private void displayQuestion(QuizQuestion question) {
+        questionText.setText(question.getQuestionText());
+
+        answersContainer.removeAllViews(); // Clear previous answers
+
+        for (QuizAnswer answer : question.getAnswers()) {
+            Button answerButton = new Button(this);
+            answerButton.setText(answer.getAnswerText());
+            answerButton.setOnClickListener(v -> handleAnswerClick(answer));
+            answersContainer.addView(answerButton);
+        }
+    }
+
+    private void handleAnswerClick(QuizAnswer answer) {
+        // Handle the answer click
+        Toast.makeText(this, "Selected: " + answer.getAnswerText(), Toast.LENGTH_SHORT).show();
+
+        // Move to the next question
+        if (++currentQuestionIndex < questions.size()) {
+            displayQuestion(questions.get(currentQuestionIndex));
+        } else {
+            Toast.makeText(this, "Quiz complete!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class FetchQuestionsTask extends AsyncTask<Integer, Void, List<QuizQuestion>> {
 
         @Override
-        protected String doInBackground(Integer... params) {
+        protected List<QuizQuestion> doInBackground(Integer... params) {
             int categoryId = params[0];
             String urlString = QUESTIONS_URL + categoryId;
 
@@ -60,7 +87,7 @@ public class QuizActivity extends AppCompatActivity {
                 }
 
                 reader.close();
-                return result.toString();
+                return parseQuestions(result.toString());
 
             } catch (Exception e) {
                 Log.e(TAG, "Error fetching questions", e);
@@ -69,39 +96,44 @@ public class QuizActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String jsonResponse) {
-            if (jsonResponse == null) {
+        protected void onPostExecute(List<QuizQuestion> result) {
+            if (result == null) {
                 Toast.makeText(QuizActivity.this, "Failed to fetch data", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            questions = result;
+            if (!questions.isEmpty()) {
+                displayQuestion(questions.get(currentQuestionIndex));
+            }
+        }
+
+        private List<QuizQuestion> parseQuestions(String jsonResponse) {
+            List<QuizQuestion> questions = new ArrayList<>();
             try {
                 JSONArray questionsArray = new JSONArray(jsonResponse);
-                questionList.clear(); // Clear existing questions if any
 
                 for (int i = 0; i < questionsArray.length(); i++) {
                     JSONObject questionObj = questionsArray.getJSONObject(i);
                     String questionText = questionObj.getString("question_text");
 
-                    // Fetch answers for this question
                     JSONArray answersArray = questionObj.getJSONArray("answers");
                     List<QuizAnswer> answers = new ArrayList<>();
                     for (int j = 0; j < answersArray.length(); j++) {
                         JSONObject answerObj = answersArray.getJSONObject(j);
                         String answerText = answerObj.getString("answer_text");
-                        boolean isCorrect = answerObj.getBoolean("is_correct");
+                        boolean isCorrect = answerObj.getBoolean("is_correct"); // Assuming your JSON includes this field
                         answers.add(new QuizAnswer(answerText, isCorrect));
                     }
 
-                    questionList.add(new QuizQuestion(questionText, answers));
+                    questions.add(new QuizQuestion(questionText, answers));
                 }
-
-                quizAdapter.notifyDataSetChanged(); // Notify adapter about data changes
 
             } catch (Exception e) {
                 Log.e(TAG, "Error parsing JSON", e);
-                Toast.makeText(QuizActivity.this, "Error parsing data", Toast.LENGTH_SHORT).show();
             }
+            return questions;
         }
+
     }
 }

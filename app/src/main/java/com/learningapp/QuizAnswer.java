@@ -1,7 +1,5 @@
 package com.learningapp;
 
-
-
 public class QuizAnswer {
     private String answerText;
     private boolean isCorrect;

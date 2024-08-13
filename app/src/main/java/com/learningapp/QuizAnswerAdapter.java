@@ -24,7 +24,7 @@ public class QuizAnswerAdapter extends RecyclerView.Adapter<QuizAnswerAdapter.An
     @Override
     public void onBindViewHolder(AnswerViewHolder holder, int position) {
         QuizAnswer answer = answerList.get(position);
-        holder.answerText.setText(answer.getAnswerText());
+        holder.answerTextView.setText(answer.getAnswerText());
     }
 
     @Override
@@ -33,11 +33,11 @@ public class QuizAnswerAdapter extends RecyclerView.Adapter<QuizAnswerAdapter.An
     }
 
     public class AnswerViewHolder extends RecyclerView.ViewHolder {
-        TextView answerText;
+        TextView answerTextView;
 
         public AnswerViewHolder(View itemView) {
             super(itemView);
-            answerText = itemView.findViewById(R.id.answer_text);
+            answerTextView = itemView.findViewById(R.id.answerTextView);
         }
     }
 }

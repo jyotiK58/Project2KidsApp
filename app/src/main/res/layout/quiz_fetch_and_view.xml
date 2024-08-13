@@ -8,15 +8,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"/>
+        android:padding="16dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/answers_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/questionTextView"/>
+        android:layout_below="@id/questionTextView"
+        android:padding="16dp"/>
 
     <Button
         android:id="@+id/nextButton"
@@ -24,5 +23,6 @@
         android:layout_height="wrap_content"
         android:text="Next"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:padding="16dp"/>
 </RelativeLayout>

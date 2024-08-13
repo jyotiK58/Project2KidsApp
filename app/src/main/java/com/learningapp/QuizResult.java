@@ -1,8 +1,6 @@
 package com.learningapp;
 
-
-
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +9,6 @@ public class QuizResult extends AppCompatActivity {
 
     private TextView resultsTextView;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,12 +16,11 @@ public class QuizResult extends AppCompatActivity {
 
         resultsTextView = findViewById(R.id.results_text_view);
 
-        // Get score and total questions from intent
-        int score = getIntent().getIntExtra("score", 0);
-        int totalQuestions = getIntent().getIntExtra("totalQuestions", 0);
+        // Get the data from the Intent
+        Intent intent = getIntent();
+        String results = intent.getStringExtra("RESULTS");
 
-        // Display results
-        String resultsText = "You scored " + score + " out of " + totalQuestions + "!";
-        resultsTextView.setText(resultsText);
+        // Display the results
+        resultsTextView.setText(results);
     }
 }

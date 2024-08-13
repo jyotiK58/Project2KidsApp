@@ -8,5 +8,5 @@
         android:id="@+id/results_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp" />
+        android:textSize="18sp"/>
 </RelativeLayout>

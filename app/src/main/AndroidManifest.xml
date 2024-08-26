@@ -36,7 +36,8 @@
         <activity android:name=".QuizCategory" android:exported="false"/>
         <activity android:name=".QuizActivity" android:exported="false"/>
         <activity android:name=".QuizResult" android:exported="false"/>
-<!--        <activity android:name="com.learningapp.subpackage.QuizQuestion" android:exported="false"/>-->
+        <activity android:name=".CategoryImages" android:exported="false"/>
+
 
         <activity
             android:name=".MainActivity"

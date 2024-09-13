@@ -54,6 +54,8 @@ dependencies {
     implementation(libs.support.annotations)
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation(libs.androidx.recyclerview.recyclerview)
+    implementation(libs.exoplayer)
+    implementation(libs.androidx.cardview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

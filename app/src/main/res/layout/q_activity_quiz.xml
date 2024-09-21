@@ -3,18 +3,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#FFF5E1"> <!-- Soft Peach Background -->
 
     <TextView
         android:id="@+id/question_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:layout_marginBottom="16dp" />
+        android:textSize="24sp"
+        android:textColor="#4A90E2"
+    android:textStyle="bold"
+
+    android:layout_marginBottom="16dp"
+    android:background="#FFD700"
+    android:padding="12dp"
+    android:elevation="4dp" /> <!-- Slight shadow for depth -->
 
     <LinearLayout
         android:id="@+id/answers_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Answer 1"
+            android:textColor="#FFFFFF"
+            android:background="#FF69B4"
+        android:layout_marginBottom="8dp"
+        android:padding="12dp"
+        android:textSize="18sp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Answer 2"
+            android:textColor="#FFFFFF"
+            android:background="#FF69B4"
+        android:layout_marginBottom="8dp"
+        android:padding="12dp"
+        android:textSize="18sp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Answer 3"
+            android:textColor="#FFFFFF"
+            android:background="#FF69B4"
+        android:layout_marginBottom="8dp"
+        android:padding="12dp"
+        android:textSize="18sp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Answer 4"
+            android:textColor="#FFFFFF"
+            android:background="#FF69B4"
+        android:padding="12dp"
+        android:textSize="18sp"/>
+
+    </LinearLayout>
 </LinearLayout>

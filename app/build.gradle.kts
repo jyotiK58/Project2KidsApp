@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.recyclerview.recyclerview)
     implementation(libs.exoplayer)
     implementation(libs.androidx.cardview)
+    implementation(libs.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

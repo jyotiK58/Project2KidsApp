@@ -3,18 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="#FFC0CB"> <!-- Light Pink Background -->
+    android:background="#FFF5E1">
 
     <TextView
         android:id="@+id/questionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="#FFFFFF" 
+        android:textSize="24sp"
+        android:textColor="#4A90E2"
     android:textStyle="bold"
+
     android:layout_centerHorizontal="true"
     android:layout_marginBottom="16dp"
-    android:padding="8dp"/>
+    android:padding="16dp"
+    android:background="#FFD700"
+    android:elevation="4dp"
+    android:text="What’s the right answer?"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/answers_recycler_view"
@@ -25,17 +29,20 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:padding="8dp"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        android:background="#FFFFFF"
+        android:elevation="3dp"/>
 
     <Button
         android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:text="Next ➡️"
         android:textColor="#FFFFFF"
-    android:background="#FF69B4"
+        android:backgroundTint="#FF69B4"
     android:layout_alignParentBottom="true"
     android:layout_centerHorizontal="true"
-    android:padding="12dp"
-    android:textSize="16sp"/>
+    android:padding="16dp"
+    android:elevation="6dp"
+    android:textSize="18sp"/>
 </RelativeLayout>

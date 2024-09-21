@@ -66,7 +66,7 @@ public class CategoryImages extends AppCompatActivity {
     }
 
     private void fetchImages(String category) {
-        String url = "http://10.0.2.2/KidsApp/fetch_images.php?category=" + category;
+        String url = "http://10.0.2.2/PhpForKidsLearninApp/fetch_images.php/?category=" + category;
         Log.d(TAG, "Fetching images from URL: " + url);
 
         RequestQueue queue = Volley.newRequestQueue(this);

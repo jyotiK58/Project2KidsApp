@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button registerButton;
 
     private static final String TAG = RegisterActivity.class.getSimpleName();
-    private static final String REGISTER_URL = "http://10.0.2.2/KidsApp/register.php";
+    private static final String REGISTER_URL = "http://10.0.2.2/PhpForKidsLearninApp/fetch_images.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

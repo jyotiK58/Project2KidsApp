@@ -55,7 +55,7 @@ public class QuizFetchAndView extends AppCompatActivity {
 
         answersRecyclerView.setAdapter(quizAdapter);
 
-        new FetchQuestionsTask().execute("http://10.0.2.2/KidsApp/fetch_quiz.php");
+        new FetchQuestionsTask().execute("http://10.0.2.2/PhpForKidsLearninApp/fetch_quiz.php");
     }
 
     private void handleAnswerSelection(QuizAnswer selectedAnswer) {

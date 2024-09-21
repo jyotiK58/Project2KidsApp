@@ -1,18 +1,18 @@
-public class Video {
+package com.learningapp;
+
+public class GetterSetterVideo {
     private String id;
     private String title;
     private String videoUrl;
-    private String imageUrl;  // Add this field
+    private String imageUrl;
 
-    // Constructor
-    public Video(String id, String title, String videoUrl, String imageUrl) {
+    public GetterSetterVideo(String id, String title, String videoUrl, String imageUrl) {
         this.id = id;
         this.title = title;
         this.videoUrl = videoUrl;
-        this.imageUrl = imageUrl;  // Initialize the imageUrl
+        this.imageUrl = imageUrl;
     }
 
-    // Getters
     public String getId() {
         return id;
     }
@@ -25,7 +25,7 @@ public class Video {
         return videoUrl;
     }
 
-    public String getImageUrl() {  // Add this getter
+    public String getImageUrl() {
         return imageUrl;
     }
 }

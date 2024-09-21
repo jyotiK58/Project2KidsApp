@@ -27,7 +27,7 @@ public class VideoLearning extends AppCompatActivity {
 
     private static final String TAG = "VideoLearning";
     private ListView videoListView;  // Now we have a reference to the ListView
-    private List<Video> videoList;
+    private List<GetterSetterVideo> videoList;
     private VideoAdapter videoAdapter;
 
     @Override
@@ -46,7 +46,7 @@ public class VideoLearning extends AppCompatActivity {
         videoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Video selectedVideo = videoList.get(position);
+                GetterSetterVideo selectedVideo = videoList.get(position);
                 String videoUrl = selectedVideo.getVideoUrl();
                 Log.d(TAG, "Selected video URL: " + videoUrl);
 
@@ -76,7 +76,7 @@ public class VideoLearning extends AppCompatActivity {
                                 String imageUrl = videoObject.getString("image_url");
 
                                 // Create Video object
-                                Video video = new Video(id, title, videoUrl, imageUrl);
+                                GetterSetterVideo video = new GetterSetterVideo(id, title, videoUrl, imageUrl);
                                 videoList.add(video);
                             }
 

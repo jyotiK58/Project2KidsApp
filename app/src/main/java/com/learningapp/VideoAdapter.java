@@ -1,6 +1,7 @@
 package com.learningapp;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class VideoAdapter extends ArrayAdapter<Video> {
+public class VideoAdapter extends ArrayAdapter<GetterSetterVideo> {
 
     private Context context;
-    private List<Video> videos;
+    private List<GetterSetterVideo> videos;
 
-    public VideoAdapter(@NonNull Context context, List<Video> videos) {
+    public VideoAdapter(@NonNull Context context, List<GetterSetterVideo> videos) {
         super(context, R.layout.video_player, videos);
         this.context = context;
         this.videos = videos;
@@ -30,7 +31,7 @@ public class VideoAdapter extends ArrayAdapter<Video> {
             convertView = LayoutInflater.from(context).inflate(R.layout.video_item, parent, false);
         }
 
-        Video video = videos.get(position);
+        GetterSetterVideo video = videos.get(position);
 
         // Set video title
         TextView videoTitle = convertView.findViewById(R.id.video_title);

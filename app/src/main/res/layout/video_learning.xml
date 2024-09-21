@@ -5,10 +5,15 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <ListView
-        android:id="@+id/video_list_view"
+
+    <GridView
+        android:id="@+id/video_grid_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp"/>
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+        android:padding="10dp"/>
+
 </LinearLayout>

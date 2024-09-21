@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -19,8 +22,17 @@ public class HomePage extends AppCompatActivity {
         CardView categoryItemQuiz = findViewById(R.id.category_item_quiz);
         CardView categoryItemLullaby = findViewById(R.id.category_item_lullaby);
         CardView categoryItemVideo = findViewById(R.id.category_item_video);
+       ImageView managesetting = findViewById(R.id.manage_setting);
 
-        // Set click listeners for each category item
+
+        managesetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, ManageSetting.class);
+                startActivity(intent);
+            }
+        });
+
         categoryItemStudy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -33,23 +33,31 @@
             android:textColor="#2196F3"
             android:textSize="20sp" />
 
+        <ImageView
+            android:id="@+id/manage_setting"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/settings"
+            android:orientation="vertical" />
+
+
         <!-- Learning Card -->
         <LinearLayout
             android:id="@+id/learning_card_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:background="#BBDEFB"
             android:orientation="horizontal"
-            android:padding="16dp"
-            android:layout_marginBottom="16dp">
+            android:padding="16dp">
 
             <ImageView
                 android:id="@+id/learning_image"
                 android:layout_width="160dp"
                 android:layout_height="120dp"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/letsplay"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/letsplay" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -90,9 +98,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:columnCount="2"
-            android:rowCount="2"
-            android:layout_marginBottom="16dp">
+            android:rowCount="2">
 
             <!-- Study Category -->
             <androidx.cardview.widget.CardView
@@ -101,9 +109,9 @@
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
+                app:cardBackgroundColor="#FFF176"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="#FFF176">
+                app:cardElevation="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -114,24 +122,24 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        app:cardCornerRadius="8dp"
-                        android:layout_marginBottom="8dp">
+                        android:layout_marginBottom="8dp"
+                        app:cardCornerRadius="8dp">
 
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/imglullaby"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/imglullaby" />
 
                     </androidx.cardview.widget.CardView>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:text="Discover"
-                        android:textSize="20sp"
                         android:textColor="#3F51B5"
-                        android:layout_marginTop="8dp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -142,9 +150,9 @@
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
+                app:cardBackgroundColor="#81C784"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="#81C784">
+                app:cardElevation="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -155,24 +163,24 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        app:cardCornerRadius="8dp"
-                        android:layout_marginBottom="8dp">
+                        android:layout_marginBottom="8dp"
+                        app:cardCornerRadius="8dp">
 
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/watchvideo"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/watchvideo" />
 
                     </androidx.cardview.widget.CardView>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:text="Fun Quiz"
-                        android:textSize="20sp"
                         android:textColor="#3F51B5"
-                        android:layout_marginTop="8dp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -183,9 +191,9 @@
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
+                app:cardBackgroundColor="#9575CD"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="#9575CD">
+                app:cardElevation="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -196,24 +204,24 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        app:cardCornerRadius="8dp"
-                        android:layout_marginBottom="8dp">
+                        android:layout_marginBottom="8dp"
+                        app:cardCornerRadius="8dp">
 
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/letsplay"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/letsplay" />
 
                     </androidx.cardview.widget.CardView>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:text="Sleepy Time"
-                        android:textSize="20sp"
                         android:textColor="#FFFFFF"
-                        android:layout_marginTop="8dp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -224,9 +232,9 @@
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
+                app:cardBackgroundColor="#FF8A65"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="#FF8A65">
+                app:cardElevation="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -237,24 +245,24 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        app:cardCornerRadius="8dp"
-                        android:layout_marginBottom="8dp">
+                        android:layout_marginBottom="8dp"
+                        app:cardCornerRadius="8dp">
 
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/letsstudy"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/letsstudy" />
 
                     </androidx.cardview.widget.CardView>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:text="Watch &amp; Learn"
-                        android:textSize="20sp"
                         android:textColor="#FFFFFF"
-                        android:layout_marginTop="8dp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

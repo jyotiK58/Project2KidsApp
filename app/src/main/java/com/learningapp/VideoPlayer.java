@@ -15,7 +15,6 @@ public class VideoPlayer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_player);
 
-        // Get the video URL from the intent and play it
         Intent intent = getIntent();
         String videoUrl = intent.getStringExtra("VIDEO_URL");
 

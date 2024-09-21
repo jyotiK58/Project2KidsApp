@@ -36,7 +36,7 @@
         <activity android:name=".QuizResult" android:exported="false"/>
         <activity android:name=".CategoryImages" android:exported="false"/>
         <activity android:name=".LullabyActivity" android:exported="false"/>
-
+        <activity android:name=".ManageSetting" android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="false"

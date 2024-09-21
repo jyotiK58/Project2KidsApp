@@ -1,49 +1,47 @@
 package com.learningapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class VideoLearning extends AppCompatActivity {
 
     private static final String TAG = "VideoLearning";
-    private ListView videoListView;  // Now we have a reference to the ListView
+    private GridView videoGridView;  // Change ListView to GridView
     private List<GetterSetterVideo> videoList;
     private VideoAdapter videoAdapter;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_learning);
 
-        // Bind the ListView
-        videoListView = findViewById(R.id.video_list_view);
+        // Bind the GridView
+        videoGridView = findViewById(R.id.video_grid_view);
         videoList = new ArrayList<>();
 
         // Fetch video categories
         fetchVideoCategories();
 
-        // Set click listener for list items
-        videoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        // Set click listener for grid items
+        videoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 GetterSetterVideo selectedVideo = videoList.get(position);
@@ -61,28 +59,32 @@ public class VideoLearning extends AppCompatActivity {
     private void fetchVideoCategories() {
         String url = "http://10.0.2.2/PhpForKidsLearninApp/fetch_videos.php";
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
+        // Use JsonObjectRequest instead of JsonArrayRequest
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         videoList.clear();
 
                         try {
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject videoObject = response.getJSONObject(i);
+                            // Get the array of videos from the JSONObject
+                            JSONArray videosArray = response.getJSONArray("videos");
+
+                            for (int i = 0; i < videosArray.length(); i++) {
+                                JSONObject videoObject = videosArray.getJSONObject(i);
                                 String id = videoObject.getString("id");
                                 String title = videoObject.getString("title");
                                 String videoUrl = videoObject.getString("video_url");
-                                String imageUrl = videoObject.getString("image_url");
+                                String imageUrl = videoObject.optString("image_url", null);  // Handle if image_url is missing
 
-                                // Create Video object
+                                // Create Video object and add to the list
                                 GetterSetterVideo video = new GetterSetterVideo(id, title, videoUrl, imageUrl);
                                 videoList.add(video);
                             }
 
-                            // Set up the custom adapter for the list view
+                            // Set up the custom adapter for the GridView
                             videoAdapter = new VideoAdapter(VideoLearning.this, videoList);
-                            videoListView.setAdapter(videoAdapter);
+                            videoGridView.setAdapter(videoAdapter);
 
                         } catch (JSONException e) {
                             Log.e(TAG, "Error parsing JSON data", e);
@@ -99,6 +101,7 @@ public class VideoLearning extends AppCompatActivity {
                 }
         );
 
-        Volley.newRequestQueue(this).add(jsonArrayRequest);
+        // Add the request to the Volley request queue
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 }

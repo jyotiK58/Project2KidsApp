@@ -222,10 +222,13 @@ public class CategoryImages extends AppCompatActivity {
 
             // Set up the click listener to open FullImageActivity
             holder.imageView.setOnClickListener(v -> {
+                Log.d(TAG, "Image clicked: " + position);
                 Intent intent = new Intent(holder.imageView.getContext(), FullImageActivity.class);
-                intent.putExtra("IMAGE_URL", url);
+                intent.putExtra("IMAGE_URLS", imageUrls.toArray(new String[0]));
+                intent.putExtra("CURRENT_INDEX", position);
                 holder.imageView.getContext().startActivity(intent);
             });
+
         }
 
         @Override

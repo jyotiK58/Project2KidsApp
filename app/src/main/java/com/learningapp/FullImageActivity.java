@@ -12,7 +12,7 @@ public class FullImageActivity extends AppCompatActivity {
 
     private static final String TAG = "FullImageActivity";
     private ImageView fullImageView;
-    private ImageView backArrow;
+    private ImageView backArrow , ic_back;
     private ImageView forwardArrow;
 
     private String[] imageUrls;
@@ -26,6 +26,7 @@ public class FullImageActivity extends AppCompatActivity {
         fullImageView = findViewById(R.id.fullImageView);
         backArrow = findViewById(R.id.backArrow);
         forwardArrow = findViewById(R.id.forwardArrow);
+        ic_back = findViewById(R.id.ic_back);
 
         Intent intent = getIntent();
         imageUrls = intent.getStringArrayExtra("IMAGE_URLS");
@@ -50,6 +51,14 @@ public class FullImageActivity extends AppCompatActivity {
             if (currentIndex < imageUrls.length - 1) {
                 currentIndex++;
                 loadImage(currentIndex);
+            }
+        });
+
+        ic_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FullImageActivity.this, Category.class);
+                startActivity(intent);
             }
         });
     }

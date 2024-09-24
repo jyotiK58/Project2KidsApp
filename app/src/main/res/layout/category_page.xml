@@ -7,7 +7,13 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:layout_margin="15dp">
-
+    <ImageView
+        android:id="@+id/ic_back"
+        android:background="#AAFFFFFF"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/backarrow" />
     <TextView
         android:id="@+id/home"
         android:layout_width="wrap_content"
@@ -15,7 +21,10 @@
         android:text="TinyLearners"
         android:textSize="35sp"
         android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints" />
+
+
 
     <ScrollView
         android:layout_width="0dp"
@@ -25,6 +34,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
 
         <GridLayout
             android:id="@+id/gridcategory"

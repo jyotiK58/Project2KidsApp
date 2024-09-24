@@ -25,6 +25,7 @@ public class Category extends AppCompatActivity {
 
     private static final String TAG = "CategoryImagesActivity";
     private GridLayout gridcategory;
+    ImageView ic_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +33,24 @@ public class Category extends AppCompatActivity {
         setContentView(R.layout.category_page);
 
         gridcategory = findViewById(R.id.gridcategory);
+        ic_back = findViewById(R.id.ic_back);
 
         if (gridcategory == null) {
             Log.e(TAG, "GridLayout is null!");
         } else {
             fetchCategories();
         }
+
+
+        ic_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Category.this, HomePage.class);
+                startActivity(intent);
+            }
+        });
     }
+
 
     private void fetchCategories() {
         String url = "http://10.0.2.2/PhpForKidsLearninApp/fetching_categories.php";

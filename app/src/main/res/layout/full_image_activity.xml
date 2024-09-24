@@ -3,7 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFDD0">
-
+    <ImageView
+        android:id="@+id/ic_back"
+        android:background="#AAFFFFFF"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/backarrow" />
     <ImageView
         android:id="@+id/fullImageView"
         android:layout_width="match_parent"

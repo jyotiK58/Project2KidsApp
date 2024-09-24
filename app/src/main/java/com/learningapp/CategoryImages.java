@@ -2,13 +2,11 @@ package com.learningapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,12 +26,9 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class CategoryImages extends AppCompatActivity {
@@ -43,10 +38,7 @@ public class CategoryImages extends AppCompatActivity {
     private ImageAdapter adapter;
     private List<String> imageUrls = new ArrayList<>();
     private String category;
-    private long startTime;
-    private TextView timeSpentText;
-    private Handler handler;
-    private Runnable updateTimeRunnable;
+    private ImageView ic_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +56,7 @@ public class CategoryImages extends AppCompatActivity {
         }
 
         recyclerView = findViewById(R.id.recyclerView);
-        timeSpentText = findViewById(R.id.time_spent_text);
+        ic_back = findViewById(R.id.ic_back);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -72,79 +64,23 @@ public class CategoryImages extends AppCompatActivity {
         adapter = new ImageAdapter(imageUrls);
         recyclerView.setAdapter(adapter);
 
-        startTime = System.currentTimeMillis(); // Start time tracking
-        handler = new Handler();
 
-        // Runnable to update time spent every minute
-        updateTimeRunnable = new Runnable() {
-            @Override
-            public void run() {
-                updateTimeSpent();
-                handler.postDelayed(this, 60000); // Update every minute
-            }
-        };
-        handler.post(updateTimeRunnable); // Start updating time
 
         fetchImages(category);
-    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        handler.removeCallbacks(updateTimeRunnable); // Stop updating time
 
-        long endTime = System.currentTimeMillis();
-        long timeSpent = (endTime - startTime) / 1000; // Convert to seconds
-
-        // Insert performance data into the database
-        insertPerformanceData(1, 100, (int) timeSpent); // Adjust user ID and score as needed
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        handler.removeCallbacks(updateTimeRunnable); // Stop updating time
-    }
-
-    private void updateTimeSpent() {
-        long currentTime = System.currentTimeMillis();
-        long timeSpent = (currentTime - startTime) / 1000; // Convert to seconds
-        timeSpentText.setText("Time Spent: " + timeSpent + " seconds");
-        Log.d(TAG, "Time spent: " + timeSpent + " seconds");
-    }
-
-    private void insertPerformanceData(int userId, int score, int timeSpent) {
-        String url = "http://10.0.2.2/PhpForKidsLearninApp/performance.php";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d(TAG, "Insert response: " + response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, "Error inserting performance data", error);
-                        Toast.makeText(CategoryImages.this, "Error saving performance data", Toast.LENGTH_LONG).show();
-                    }
-                }) {
+        ic_back.setOnClickListener(new View.OnClickListener() {
             @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-                params.put("user_id", String.valueOf(userId));
-                params.put("score", String.valueOf(score));
-                params.put("time_spent", String.valueOf(timeSpent));
-                params.put("date", currentDate);
-                return params;
+            public void onClick(View v) {
+                Intent intent = new Intent(CategoryImages.this, Category.class);
+                startActivity(intent);
             }
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        queue.add(stringRequest);
+        });
     }
+
+
+
+
 
     private void fetchImages(String category) {
         String url = "http://10.0.2.2/PhpForKidsLearninApp/fetch_images.php/?category=" + category;
@@ -228,7 +164,6 @@ public class CategoryImages extends AppCompatActivity {
                 intent.putExtra("CURRENT_INDEX", position);
                 holder.imageView.getContext().startActivity(intent);
             });
-
         }
 
         @Override

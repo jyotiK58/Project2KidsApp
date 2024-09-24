@@ -37,7 +37,7 @@
         <activity android:name=".CategoryImages" android:exported="false"/>
         <activity android:name=".LullabyActivity" android:exported="false"/>
         <activity android:name=".ManageSetting" android:exported="false"/>
-
+        <activity android:name=".FullImageActivity" android:exported="false"/>
         <activity android:name=".Performance" android:exported="false"
             />
         <activity

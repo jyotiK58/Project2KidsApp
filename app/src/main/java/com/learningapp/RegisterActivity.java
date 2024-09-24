@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
-
+  TextView login;
     private EditText firstNameEditText, lastNameEditText, emailEditText,
             usernameEditText, phoneNumberEditText, addressEditText,
             passwordEditText, confirmPasswordEditText, userIdEditText;
@@ -54,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         userIdEditText = findViewById(R.id.userid); // Initialize userIdEditText
 
         registerButton = findViewById(R.id.btnregister);
-
+        login = findViewById(R.id.login);
         // Check if in update mode
         isUpdate = getIntent().getBooleanExtra("isUpdate", false);
         if (isUpdate) {
@@ -72,6 +73,15 @@ public class RegisterActivity extends AppCompatActivity {
                 registerUser();
             }
         });
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              Intent i = new Intent(RegisterActivity.this,LoginActivity.class);
+              startActivity(i);
+            }
+        });
+
+
     }
 
     private void loadUserData(String userId) {
@@ -151,6 +161,7 @@ public class RegisterActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
                             String message = jsonResponse.getString("message");
@@ -164,9 +175,14 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         }
                         // Navigate back to ManageSetting or the previous activity
-                        Intent intent = new Intent(RegisterActivity.this, ManageSetting.class);
-                        startActivity(intent);
-                        finish();
+                        if (isUpdate) {
+                            Intent intent = new Intent(RegisterActivity.this, ManageSetting.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
                     }
                 },
                 new Response.ErrorListener() {

@@ -1,11 +1,8 @@
 package com.learningapp;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,8 +29,6 @@ public class ManageSetting extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manage_setting); // Ensure this matches your XML layout filename
-        String userId = getIntent().getStringExtra("user_id"); // Get user_id from intent
-        Log.d(TAG, "User ID: " + userId); // Add this line
 
         // Initialize the Volley request queue
         requestQueue = Volley.newRequestQueue(this);
@@ -59,15 +54,20 @@ public class ManageSetting extends AppCompatActivity {
         updateAccountOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Retrieve the current user's ID from SharedPreferences or your data source
-                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                int userId = sharedPreferences.getInt("user_id", -1); // Default to -1 if not found
+                // Retrieve the current user's ID from SharedPreferences as a string
+                SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+                String userId = sharedPreferences.getString("user_id", null); // Default to null if not found
 
-                // Navigate to RegisterActivity for updating account
-                Intent intent = new Intent(ManageSetting.this, RegisterActivity.class);
-                intent.putExtra("isUpdate", true); // Pass true to indicate update mode
-                intent.putExtra("user_id", userId); // Pass the user ID
-                startActivity(intent);
+                // Check if userId is valid
+                if (userId != null) {
+                    // Navigate to RegisterActivity for updating account
+                    Intent intent = new Intent(ManageSetting.this, RegisterActivity.class);
+                    intent.putExtra("isUpdate", true); // Pass true to indicate update mode
+                    intent.putExtra("user_id", userId); // Pass the user ID
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(ManageSetting.this, "User not found, please login again.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -75,13 +75,13 @@ public class ManageSetting extends AppCompatActivity {
     private void logoutUser() {
         String logoutUrl = "http://10.0.2.2/PhpForKidsLearninApp/logout.php"; // Replace with your actual server URL
 
-        // Clear SharedPreferences (remove saved username and password)
+        // Clear SharedPreferences (remove saved username, password, and user_id)
         SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
+        editor.clear();  // This clears all the saved session data
         editor.apply();
 
-        // Make a JSON Object Request to log out from the server
+        // Make a JSON Object Request to log out from the server (optional, depending on server-side session management)
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 logoutUrl,
@@ -95,15 +95,14 @@ public class ManageSetting extends AppCompatActivity {
                                 Toast.makeText(ManageSetting.this, "Logout successful", Toast.LENGTH_SHORT).show();
 
                                 // Redirect to login page after successful logout
-                                Intent intent = new Intent(ManageSetting.this, LoginActivity.class);
-                                startActivity(intent);
-                                finish();
+                                redirectToLogin();
                             } else {
                                 Toast.makeText(ManageSetting.this, "Logout failed: " + response.getString("message"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(ManageSetting.this, "Logout failed", Toast.LENGTH_SHORT).show();
+                            redirectToLogin(); // Proceed with redirection even if server response failed
                         }
                     }
                 },
@@ -111,11 +110,19 @@ public class ManageSetting extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(ManageSetting.this, "Network error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        redirectToLogin();  // Proceed with redirection in case of network error
                     }
                 }
         );
 
         // Add the request to the Volley request queue
         requestQueue.add(jsonObjectRequest);
+    }
+
+    private void redirectToLogin() {
+        // Redirect to LoginActivity after clearing session
+        Intent intent = new Intent(ManageSetting.this, LoginActivity.class);
+        startActivity(intent);
+        finish();  // Finish current activity to prevent user from returning to it
     }
 }

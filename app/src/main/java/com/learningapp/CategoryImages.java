@@ -1,5 +1,6 @@
 package com.learningapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -21,8 +22,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -218,6 +219,13 @@ public class CategoryImages extends AppCompatActivity {
                             Log.e(TAG, "Error loading image: " + url, e);
                         }
                     });
+
+            // Set up the click listener to open FullImageActivity
+            holder.imageView.setOnClickListener(v -> {
+                Intent intent = new Intent(holder.imageView.getContext(), FullImageActivity.class);
+                intent.putExtra("IMAGE_URL", url);
+                holder.imageView.getContext().startActivity(intent);
+            });
         }
 
         @Override

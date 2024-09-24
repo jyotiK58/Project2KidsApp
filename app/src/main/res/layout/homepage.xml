@@ -33,13 +33,24 @@
             android:textColor="#2196F3"
             android:textSize="20sp" />
 
-        <ImageView
-            android:id="@+id/manage_setting"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/settings"
-            android:orientation="vertical" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp">
 
+            <ImageView
+                android:id="@+id/manage_setting"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/settings"
+                android:contentDescription="Settings"
+                android:clickable="true"
+                android:focusable="true"
+                android:scaleType="fitCenter" />
+        </RelativeLayout>
 
         <!-- Learning Card -->
         <LinearLayout
@@ -92,6 +103,14 @@
                     android:textColor="#FFFFFF" />
             </LinearLayout>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/time_spent_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time Spent: 0 seconds"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp" />
 
         <!-- GridLayout for Categories -->
         <GridLayout
@@ -178,7 +197,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Fun Quiz"
+                        android:text="Play Quiz"
                         android:textColor="#3F51B5"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -191,7 +210,7 @@
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
-                app:cardBackgroundColor="#9575CD"
+                app:cardBackgroundColor="#FFCC80"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
 
@@ -211,7 +230,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/letsplay" />
+                            android:src="@mipmap/alphabet_img" />
 
                     </androidx.cardview.widget.CardView>
 
@@ -219,20 +238,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Sleepy Time"
-                        android:textColor="#FFFFFF"
+                        android:text="Lullaby Time"
+                        android:textColor="#3F51B5"
                         android:textSize="20sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Video Category -->
+            <!-- Video Learning Category -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/category_item_video"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
-                app:cardBackgroundColor="#FF8A65"
+                app:cardBackgroundColor="#FFAB91"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
 
@@ -252,7 +271,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/letsstudy" />
+                            android:src="@mipmap/numbers" />
 
                     </androidx.cardview.widget.CardView>
 
@@ -260,12 +279,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Watch &amp; Learn"
-                        android:textColor="#FFFFFF"
+                        android:text="Video Learning"
+                        android:textColor="#3F51B5"
                         android:textSize="20sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-
         </GridLayout>
 
     </LinearLayout>

@@ -22,10 +22,9 @@ public class HomePage extends AppCompatActivity {
         CardView categoryItemQuiz = findViewById(R.id.category_item_quiz);
         CardView categoryItemLullaby = findViewById(R.id.category_item_lullaby);
         CardView categoryItemVideo = findViewById(R.id.category_item_video);
-       ImageView managesetting = findViewById(R.id.manage_setting);
 
-
-        managesetting.setOnClickListener(new View.OnClickListener() {
+        ImageView manageSetting = findViewById(R.id.manage_setting);
+        manageSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePage.this, ManageSetting.class);

@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.Request;
@@ -20,10 +19,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
+
 public class VideoLearning extends AppCompatActivity {
 
     private static final String TAG = "VideoLearning";
-    private GridView videoGridView;  // Change ListView to GridView
+    private GridView videoGridView;
     private List<GetterSetterVideo> videoList;
     private VideoAdapter videoAdapter;
 
@@ -33,14 +33,11 @@ public class VideoLearning extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_learning);
 
-        // Bind the GridView
         videoGridView = findViewById(R.id.video_grid_view);
         videoList = new ArrayList<>();
 
-        // Fetch video categories
         fetchVideoCategories();
 
-        // Set click listener for grid items
         videoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -48,7 +45,6 @@ public class VideoLearning extends AppCompatActivity {
                 String videoUrl = selectedVideo.getVideoUrl();
                 Log.d(TAG, "Selected video URL: " + videoUrl);
 
-                // Redirect to VideoPlayer activity with the selected video URL
                 Intent intent = new Intent(VideoLearning.this, VideoPlayer.class);
                 intent.putExtra("VIDEO_URL", videoUrl);
                 startActivity(intent);
@@ -59,7 +55,6 @@ public class VideoLearning extends AppCompatActivity {
     private void fetchVideoCategories() {
         String url = "http://10.0.2.2/PhpForKidsLearninApp/fetch_videos.php";
 
-        // Use JsonObjectRequest instead of JsonArrayRequest
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -67,7 +62,6 @@ public class VideoLearning extends AppCompatActivity {
                         videoList.clear();
 
                         try {
-                            // Get the array of videos from the JSONObject
                             JSONArray videosArray = response.getJSONArray("videos");
 
                             for (int i = 0; i < videosArray.length(); i++) {
@@ -75,14 +69,14 @@ public class VideoLearning extends AppCompatActivity {
                                 String id = videoObject.getString("id");
                                 String title = videoObject.getString("title");
                                 String videoUrl = videoObject.getString("video_url");
-                                String imageUrl = videoObject.optString("image_url", null);  // Handle if image_url is missing
+                                String imageUrl = videoObject.optString("image_url", "");
 
-                                // Create Video object and add to the list
+                                Log.d(TAG, "Video: " + title + ", Image URL: " + imageUrl);
+
                                 GetterSetterVideo video = new GetterSetterVideo(id, title, videoUrl, imageUrl);
                                 videoList.add(video);
                             }
 
-                            // Set up the custom adapter for the GridView
                             videoAdapter = new VideoAdapter(VideoLearning.this, videoList);
                             videoGridView.setAdapter(videoAdapter);
 
@@ -95,13 +89,12 @@ public class VideoLearning extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, "Error fetching data", error);
+                        Log.e(TAG, "Error fetching data: " + error.toString(), error);
                         Toast.makeText(VideoLearning.this, "Error fetching data", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
 
-        // Add the request to the Volley request queue
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 }

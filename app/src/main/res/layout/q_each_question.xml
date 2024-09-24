@@ -18,11 +18,5 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/questionTextView"/>
 
-    <Button
-        android:id="@+id/nextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>

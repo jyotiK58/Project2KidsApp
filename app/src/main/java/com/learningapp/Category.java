@@ -2,9 +2,12 @@ package com.learningapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,12 +23,18 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Category extends AppCompatActivity {
 
     private static final String TAG = "CategoryImagesActivity";
     private GridLayout gridcategory;
-    ImageView ic_back;
+    private ImageView ic_back;
+    private EditText searchInput;
+
+    private List<CategoryItem> categoryList = new ArrayList<>(); // Store all categories for filtering
+    private List<CategoryItem> filteredList = new ArrayList<>(); // Store filtered categories
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,7 @@ public class Category extends AppCompatActivity {
 
         gridcategory = findViewById(R.id.gridcategory);
         ic_back = findViewById(R.id.ic_back);
+        searchInput = findViewById(R.id.search_input); // Assuming you added this in your layout
 
         if (gridcategory == null) {
             Log.e(TAG, "GridLayout is null!");
@@ -41,16 +51,25 @@ public class Category extends AppCompatActivity {
             fetchCategories();
         }
 
+        ic_back.setOnClickListener(v -> {
+            Intent intent = new Intent(Category.this, HomePage.class);
+            startActivity(intent);
+        });
 
-        ic_back.setOnClickListener(new View.OnClickListener() {
+        // Add text change listener for search functionality
+        searchInput.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Category.this, HomePage.class);
-                startActivity(intent);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterCategories(s.toString());
             }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
     }
-
 
     private void fetchCategories() {
         String url = "http://10.0.2.2/PhpForKidsLearninApp/fetching_categories.php";
@@ -58,34 +77,39 @@ public class Category extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d(TAG, "Response received: " + response);
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject categoryObj = jsonArray.getJSONObject(i);
-                                String categoryName = categoryObj.getString("type");
-                                String imageUrl = categoryObj.getString("image_url");
+                response -> {
+                    Log.d(TAG, "Response received: " + response);
+                    try {
+                        JSONArray jsonArray = new JSONArray(response);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject categoryObj = jsonArray.getJSONObject(i);
+                            String categoryName = categoryObj.getString("type");
+                            String imageUrl = categoryObj.getString("image_url");
 
-                                addCategoryCard(categoryName, imageUrl);
-                            }
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Error parsing response", e);
-                            Toast.makeText(Category.this, "Error parsing response", Toast.LENGTH_LONG).show();
+                            // Add to the list of categories
+                            CategoryItem categoryItem = new CategoryItem(categoryName, imageUrl);
+                            categoryList.add(categoryItem);
                         }
+                        // Show all categories initially
+                        showCategories(categoryList);
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Error parsing response", e);
+                        Toast.makeText(Category.this, "Error parsing response", Toast.LENGTH_LONG).show();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, "Error fetching categories", error);
-                        Toast.makeText(Category.this, "Error fetching categories. Please try again later.", Toast.LENGTH_LONG).show();
-                    }
+                error -> {
+                    Log.e(TAG, "Error fetching categories", error);
+                    Toast.makeText(Category.this, "Error fetching categories. Please try again later.", Toast.LENGTH_LONG).show();
                 });
 
         queue.add(stringRequest);
+    }
+
+    private void showCategories(List<CategoryItem> categories) {
+        gridcategory.removeAllViews(); // Clear previous views
+        for (CategoryItem category : categories) {
+            addCategoryCard(category.getName(), category.getImageUrl());
+        }
     }
 
     private void addCategoryCard(String categoryName, String imageUrl) {
@@ -108,5 +132,36 @@ public class Category extends AppCompatActivity {
         });
 
         gridcategory.addView(cardView);
+    }
+
+    private void filterCategories(String query) {
+        filteredList.clear(); // Clear previous filtered results
+
+        for (CategoryItem category : categoryList) {
+            if (category.getName().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(category); // Add to filtered list if matches
+            }
+        }
+
+        showCategories(filteredList); // Show filtered results
+    }
+
+    // Inner class to represent a Category Item
+    private static class CategoryItem {
+        private final String name;
+        private final String imageUrl;
+
+        public CategoryItem(String name, String imageUrl) {
+            this.name = name;
+            this.imageUrl = imageUrl;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getImageUrl() {
+            return imageUrl;
+        }
     }
 }

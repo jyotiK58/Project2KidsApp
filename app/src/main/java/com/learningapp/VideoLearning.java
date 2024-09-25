@@ -2,12 +2,15 @@ package com.learningapp;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -31,8 +34,10 @@ public class VideoLearning extends AppCompatActivity {
     private static final String TAG = "VideoLearning";
     private GridView videoGridView;
     private List<GetterSetterVideo> videoList;
+    private List<GetterSetterVideo> filteredVideoList; // For holding filtered videos
     private VideoAdapter videoAdapter;
     private WebView videoWebView;
+    private EditText searchBar; // For searching videos
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -42,16 +47,32 @@ public class VideoLearning extends AppCompatActivity {
 
         videoGridView = findViewById(R.id.video_grid_view);
         videoWebView = findViewById(R.id.video_web_view);
+        searchBar = findViewById(R.id.search_input); // Initialize the search bar
         videoList = new ArrayList<>();
+        filteredVideoList = new ArrayList<>(); // Initialize filtered list
 
         // Start fetching video categories
         Log.d(TAG, "Fetching video categories...");
         fetchVideoCategories();
 
+        // Set up the search functionality
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterVideos(s.toString()); // Call filter method
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
         videoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GetterSetterVideo selectedVideo = videoList.get(position);
+                GetterSetterVideo selectedVideo = filteredVideoList.get(position);
                 String videoUrl = selectedVideo.getVideoUrl();
 
                 // Log which video was selected
@@ -94,7 +115,8 @@ public class VideoLearning extends AppCompatActivity {
                             }
 
                             // Set the adapter after data is loaded
-                            videoAdapter = new VideoAdapter(VideoLearning.this, videoList);
+                            filteredVideoList.addAll(videoList); // Copy all videos to filtered list
+                            videoAdapter = new VideoAdapter(VideoLearning.this, filteredVideoList);
                             videoGridView.setAdapter(videoAdapter);
 
                             // Log success message
@@ -119,6 +141,24 @@ public class VideoLearning extends AppCompatActivity {
 
         // Add request to the queue
         Volley.newRequestQueue(this).add(jsonObjectRequest);
+    }
+
+    // Filter videos based on search query
+    private void filterVideos(String query) {
+        filteredVideoList.clear();
+
+        if (query.isEmpty()) {
+            filteredVideoList.addAll(videoList); // Show all videos if query is empty
+        } else {
+            for (GetterSetterVideo video : videoList) {
+                if (video.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                    filteredVideoList.add(video); // Add matching video to the filtered list
+                }
+            }
+        }
+
+        // Notify the adapter of the change
+        videoAdapter.notifyDataSetChanged(); // Refresh the GridView
     }
 
     // Load the selected video into the WebView
@@ -160,11 +200,9 @@ public class VideoLearning extends AppCompatActivity {
             }
         });
 
-
         videoWebView.loadData(iframeHtml, "text/html", "utf-8");
 
         // Log completion of WebView load initiation
         Log.d(TAG, "WebView content loaded with video URL.");
     }
-
 }

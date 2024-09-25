@@ -8,12 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,14 +20,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CategoryImages extends AppCompatActivity {
 
@@ -61,26 +55,16 @@ public class CategoryImages extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        adapter = new ImageAdapter(imageUrls);
+        adapter = new ImageAdapter(imageUrls, category); // Pass category to the adapter
         recyclerView.setAdapter(adapter);
-
-
 
         fetchImages(category);
 
-
-        ic_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CategoryImages.this, Category.class);
-                startActivity(intent);
-            }
+        ic_back.setOnClickListener(v -> {
+            Intent intent = new Intent(CategoryImages.this, Category.class);
+            startActivity(intent);
         });
     }
-
-
-
-
 
     private void fetchImages(String category) {
         String url = "http://10.0.2.2/PhpForKidsLearninApp/fetch_images.php/?category=" + category;
@@ -125,9 +109,11 @@ public class CategoryImages extends AppCompatActivity {
 
     private class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
         private List<String> urls;
+        private String category; // Add category variable
 
-        ImageAdapter(List<String> urls) {
+        ImageAdapter(List<String> urls, String category) { // Update constructor to take category
             this.urls = urls;
+            this.category = category;
         }
 
         @NonNull
@@ -162,6 +148,7 @@ public class CategoryImages extends AppCompatActivity {
                 Intent intent = new Intent(holder.imageView.getContext(), FullImageActivity.class);
                 intent.putExtra("IMAGE_URLS", imageUrls.toArray(new String[0]));
                 intent.putExtra("CURRENT_INDEX", position);
+                intent.putExtra("CATEGORY", category); // Pass the category here
                 holder.imageView.getContext().startActivity(intent);
             });
         }

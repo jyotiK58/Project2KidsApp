@@ -3,6 +3,7 @@ package com.learningapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.squareup.picasso.Picasso;
@@ -12,11 +13,13 @@ public class FullImageActivity extends AppCompatActivity {
 
     private static final String TAG = "FullImageActivity";
     private ImageView fullImageView;
-    private ImageView backArrow , ic_back;
+    private ImageView backArrow, ic_back;
     private ImageView forwardArrow;
+    private Button startQuizButton;
 
     private String[] imageUrls;
     private int currentIndex;
+    private String category; // Declare category variable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +30,15 @@ public class FullImageActivity extends AppCompatActivity {
         backArrow = findViewById(R.id.backArrow);
         forwardArrow = findViewById(R.id.forwardArrow);
         ic_back = findViewById(R.id.ic_back);
+        startQuizButton = findViewById(R.id.start_quiz_button);
+
+        // Initialize the button to be invisible
+        startQuizButton.setVisibility(View.GONE);
 
         Intent intent = getIntent();
         imageUrls = intent.getStringArrayExtra("IMAGE_URLS");
         currentIndex = intent.getIntExtra("CURRENT_INDEX", 0);
+        category = intent.getStringExtra("CATEGORY"); // Retrieve the category
 
         if (imageUrls != null && imageUrls.length > 0) {
             loadImage(currentIndex);
@@ -51,15 +59,22 @@ public class FullImageActivity extends AppCompatActivity {
             if (currentIndex < imageUrls.length - 1) {
                 currentIndex++;
                 loadImage(currentIndex);
+            } else {
+                // If it's the last image, show the button
+                startQuizButton.setVisibility(View.VISIBLE);
             }
         });
 
-        ic_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(FullImageActivity.this, Category.class);
-                startActivity(intent);
-            }
+        ic_back.setOnClickListener(v -> {
+            Intent in = new Intent(FullImageActivity.this, Category.class);
+            startActivity(in);
+        });
+
+        startQuizButton.setOnClickListener(v -> {
+            Intent i = new Intent(FullImageActivity.this, QuizActivity.class);
+            // Use the retrieved category here
+            i.putExtra("CATEGORY", category);
+            startActivity(i);
         });
     }
 
@@ -67,5 +82,13 @@ public class FullImageActivity extends AppCompatActivity {
         String imageUrl = imageUrls[index];
         Log.d(TAG, "Loading image: " + imageUrl);
         Picasso.get().load(imageUrl).into(fullImageView);
+
+        // Hide the button when navigating back or forward
+        startQuizButton.setVisibility(View.GONE);
+
+        // Show the button if it's the last image
+        if (index == imageUrls.length - 1) {
+            startQuizButton.setVisibility(View.VISIBLE);
+        }
     }
 }

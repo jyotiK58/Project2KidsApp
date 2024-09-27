@@ -5,11 +5,15 @@
     <color name="yellow">#ccb433</color>
     <color name="blue">#abdbe3</color>
     <color name="red">#D30F0F</color>
-    <color name="colorPrimary">#6200EE</color>
     <color name="pink">#ffafcc</color>
     <color name="darkpink">#fb6f92</color>
     <color name="gray">#6c757d</color>
     <color name="primary_color">#4CAF50</color>
+    <color name="colorX">#2196F3</color> <!-- Blue color for X -->
+    <color name="colorO">#FF4081</color> <!-- Pink color for O -->
+    <color name="colorAccent">#FF4081</color> <!-- Example color for accent -->
+    <color name="colorPrimary">#1757DA</color> <!-- Example primary color -->
+    <color name="background">#FFFFFF</color> <!-- Background color (white or whatever you prefer) -->
 
     <color name="correct_color">#4CAF50</color>
     <color name="incorrect_color">#F44336</color>

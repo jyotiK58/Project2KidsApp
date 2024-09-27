@@ -112,7 +112,7 @@ public class HomePage extends AppCompatActivity {
         categoryItemQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomePage.this, QuizActivity.class);
+                Intent intent = new Intent(HomePage.this, DrawingActivity.class);
                 startActivity(intent);
             }
         });
@@ -120,7 +120,7 @@ public class HomePage extends AppCompatActivity {
         categoryItemLullaby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomePage.this, LullabyActivity.class);
+                Intent intent = new Intent(HomePage.this, TicTacToeActivity.class);
                 startActivity(intent);
             }
         });

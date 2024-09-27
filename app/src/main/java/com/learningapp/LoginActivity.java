@@ -38,7 +38,8 @@ public class LoginActivity extends AppCompatActivity {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_REMEMBER_ME = "rememberMe";
-    private static final String KEY_USER_ID = "user_id"; // New key for user ID
+    public static final String KEY_USER_ID = "user_id"; // Change to public
+ // New key for user ID
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Example of expected response: {"status": "success", "user_id": "123", "message": "Login successful!"}
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
                             String status = jsonResponse.getString("status");
@@ -110,24 +110,19 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString(KEY_USER_ID, userId); // Save user ID
 
-                                // Save user ID regardless of "Remember Me" checkbox state
-                                editor.putString(KEY_USER_ID, userId);
-
-                                // Save credentials if "Remember Me" is checked
                                 if (rememberMeCheckbox.isChecked()) {
                                     editor.putString(KEY_USERNAME, username);
                                     editor.putString(KEY_PASSWORD, password);
                                     editor.putBoolean(KEY_REMEMBER_ME, true);
                                 } else {
-                                    // Clear saved credentials but keep user ID
                                     editor.remove(KEY_USERNAME);
                                     editor.remove(KEY_PASSWORD);
                                     editor.putBoolean(KEY_REMEMBER_ME, false);
                                 }
                                 editor.apply();
 
-                                // Navigate to the main activity
                                 Intent intent = new Intent(LoginActivity.this, HomePage.class);
                                 startActivity(intent);
                                 finish();
@@ -157,5 +152,6 @@ public class LoginActivity extends AppCompatActivity {
 
         requestQueue.add(stringRequest);
     }
+
 
 }

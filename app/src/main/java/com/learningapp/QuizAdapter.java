@@ -67,6 +67,11 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         }, 500); // Change the delay for the flashing effect duration
     }
 
+    public void updateAnswers(List<QuizAnswer> newAnswers) {
+        this.answers = newAnswers;
+        notifyDataSetChanged();
+    }
+
     public interface QuizAdapterListener {
         void onAnswerSelected(QuizAnswer selectedAnswer);
     }

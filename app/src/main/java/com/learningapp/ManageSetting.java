@@ -35,11 +35,13 @@ public class ManageSetting extends AppCompatActivity {
 
         // Find the views by ID
         ImageView backButton = findViewById(R.id.ic_back);
+
         LinearLayout logoutOption = findViewById(R.id.logout_option);
         LinearLayout updateAccountOption = findViewById(R.id.account_option); // Updated to use the correct ID from XML
 
         // Set click listener for the back button
         backButton.setOnClickListener(v -> finish()); // Close the current activity
+
 
         // Set click listener for the logout option
         logoutOption.setOnClickListener(new View.OnClickListener() {

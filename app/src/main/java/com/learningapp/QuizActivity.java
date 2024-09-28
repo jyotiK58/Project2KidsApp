@@ -205,6 +205,12 @@ public class QuizActivity extends AppCompatActivity {
 
     private void sendOverallResultsToServer(int correctCount, int wrongCount) {
         String userId = sharedPreferences.getString(USER_ID_KEY, "");
+        if (userId == null || userId.isEmpty()) {
+            Log.e(TAG, "User ID is missing. Cannot send results to server.");
+            showToast("User ID is missing. Please log in again.");
+            return;
+        }
+
         String url = "http://10.0.2.2/PhpForKidsLearninApp/quiz_result.php"; // Using the same URL for overall results
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -215,14 +221,16 @@ public class QuizActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("user_id", userId);
-                params.put("correct_count", String.valueOf(correctCount));
-                params.put("wrong_count", String.valueOf(wrongCount));
+                params.put("category_id", String.valueOf(getCategoryId(category))); // Ensure category_id is included
+                params.put("correct", String.valueOf(correctCount));
+                params.put("wrong", String.valueOf(wrongCount));
                 return params;
             }
         };
 
         queue.add(stringRequest);
     }
+
 
     private void navigateToResults() {
         Intent intent = new Intent(this, QuizResult.class);

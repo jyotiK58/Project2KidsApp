@@ -29,6 +29,13 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    sourceSets {
+        getByName("main") {
+            assets {
+                srcDirs("src/main/assets")
+            }
+        }
+    }
 }
 
 configurations {
@@ -57,6 +64,7 @@ dependencies {
     implementation(libs.exoplayer)
     implementation(libs.androidx.cardview)
     implementation(libs.core)
+    implementation(libs.tensorflow.lite)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

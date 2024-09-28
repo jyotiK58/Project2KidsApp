@@ -42,8 +42,7 @@
         <activity android:name=".TicTacToeActivity" android:exported="false"/>
         <activity android:name=".RulesTicTacToe" android:exported="false"/>
         <activity android:name=".FullImageActivity" android:exported="false"/>
-        <activity android:name=".Performance" android:exported="false"
-            />
+
         <activity
             android:name=".MainActivity"
             android:exported="false"

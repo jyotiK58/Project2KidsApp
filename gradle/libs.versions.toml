@@ -22,6 +22,9 @@ exoplayer = "2.19.1"
 cardview = "1.0.0"
 youtubeAndroidPlayerApi = "1.2.2"
 core = "12.1.0"
+wekaStable = "3.8.6"
+wekaDev = "3.9.6"
+tensorflowLite = "2.16.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -46,6 +49,9 @@ exoplayer = { group = "com.google.android.exoplayer", name = "exoplayer", versio
 androidx-cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
 youtube-android-player-api = { group = "com.google.android.youtube", name = "youtube-android-player-api", version.ref = "youtubeAndroidPlayerApi" }
 core = { group = "com.pierfrancescosoffritti.androidyoutubeplayer", name = "core", version.ref = "core" }
+weka-stable = { group = "nz.ac.waikato.cms.weka", name = "weka-stable", version.ref = "wekaStable" }
+weka-dev = { group = "nz.ac.waikato.cms.weka", name = "weka-dev", version.ref = "wekaDev" }
+tensorflow-lite = { group = "org.tensorflow", name = "tensorflow-lite", version.ref = "tensorflowLite" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

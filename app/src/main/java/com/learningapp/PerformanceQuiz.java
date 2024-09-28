@@ -1,84 +1,76 @@
 package com.learningapp;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
+import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProgressFragment extends Fragment {
-
+public class PerformanceQuiz extends AppCompatActivity {
     private ProgressBar performanceProgressBar;
     private TextView progressPercentageTextView;
     private TextView clusterTextView;
     private int userId;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.performance_quiz, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.performance_quiz);
 
         // Initialize UI components
-        performanceProgressBar = view.findViewById(R.id.performanceProgressBar);
-        progressPercentageTextView = view.findViewById(R.id.progressPercentageTextView);
-        clusterTextView = view.findViewById(R.id.clusterTextView);
+        performanceProgressBar = findViewById(R.id.performanceProgressBar);
+        progressPercentageTextView = findViewById(R.id.progressPercentageTextView);
+        clusterTextView = findViewById(R.id.clusterTextView);
 
         // Fetch user ID from shared preferences
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        userId = Integer.parseInt(preferences.getString(LoginActivity.KEY_USER_ID, "-1")); // Retrieve as String and parse
-
-
-        // Log the retrieved user ID
-        Log.d("ProgressFragment", "Retrieved User ID: " + userId);
-
+        userId = PreferenceManager.getDefaultSharedPreferences(this).getInt("user_id", -1);
         if (userId == -1) {
-            // User ID not found, redirect to login activity
-            Toast.makeText(getContext(), "Please log in to view your progress", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
-            getActivity().finish();
-            return view;
+            // Handle the case where user ID is not found
+            return;
         }
 
         fetchUserData();
-        return view;
     }
 
     private void fetchUserData() {
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        new FetchUserDataTask().execute("http://10.0.2.2/PhpForKidsLearninApp/performance_quiz.php");
+    }
 
-        String url = "http://10.0.2.2/PhpForKidsLearninApp/performance_quiz.php";
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    List<UserData> userDataList = new ArrayList<>();
-                    JSONArray jsonArray = new JSONArray(response);
+    private class FetchUserDataTask extends AsyncTask<String, Void, List<UserData>> {
+        @Override
+        protected List<UserData> doInBackground(String... urls) {
+            List<UserData> userDataList = new ArrayList<>();
+            try {
+                URL url = new URL(urls[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String inputLine;
+                    StringBuilder response = new StringBuilder();
+
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+
+                    JSONArray jsonArray = new JSONArray(response.toString());
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         int userId = jsonObject.getInt("user_id");
@@ -86,22 +78,23 @@ public class ProgressFragment extends Fragment {
                         int wrongCount = jsonObject.getInt("wrong_answers_count");
                         userDataList.add(new UserData(userId, correctCount, wrongCount));
                     }
-                    applyKMeansClustering(userDataList);
-                } catch (Exception e) {
-                    Log.e("ProgressFragment", "Parsing error: " + e.getMessage(), e);
+                } else {
+                    Log.e("PerformanceQuiz", "GET request not worked");
                 }
+            } catch (Exception e) {
+                Log.e("PerformanceQuiz", "Exception: " + e.getMessage(), e);
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("ProgressFragment", "Volley error: " + error.getMessage(), error);
-            }
-        });
+            return userDataList;
+        }
 
-        requestQueue.add(stringRequest);
+        @Override
+        protected void onPostExecute(List<UserData> userDataList) {
+            applyKMeansClustering(userDataList);
+        }
     }
 
     private void applyKMeansClustering(List<UserData> userDataList) {
+        // K-means algorithm implementation (same as before)
         List<float[]> data = new ArrayList<>();
         for (UserData userData : userDataList) {
             data.add(new float[]{userData.correctCount, userData.wrongCount});
@@ -127,6 +120,7 @@ public class ProgressFragment extends Fragment {
             // Find the user's data
             for (UserData userData : userDataList) {
                 if (userData.userId == userId) {
+                    // Calculate the percentage of correct answers
                     int totalQuestions = userData.correctCount + userData.wrongCount;
                     if (totalQuestions > 0) {
                         int percentageCorrect = (int) ((userData.correctCount / (float) totalQuestions) * 100);

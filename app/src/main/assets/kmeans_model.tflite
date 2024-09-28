@@ -1,0 +1,30 @@
+import numpy as np
+import tensorflow as tf
+from sklearn.cluster import KMeans
+
+# Sample data (replace this with your actual data fetching logic)
+data = np.array([
+    [2, 1],  # Example user data (correct_count, wrong_count)
+    [3, 2],
+    [5, 4],
+    [6, 5],
+    [8, 7]
+])
+
+# Train KMeans model
+kmeans = KMeans(n_clusters=3)
+kmeans.fit(data)
+
+# Create a simple TensorFlow model to represent the KMeans centroids
+model = tf.keras.Sequential([
+    tf.keras.layers.Input(shape=(2,)),  # Input shape should match your data
+    tf.keras.layers.Dense(3, activation='softmax', use_bias=False, kernel_initializer=tf.keras.initializers.Constant(kmeans.cluster_centers_))
+])
+
+# Convert to TensorFlow Lite
+converter = tf.lite.TFLiteConverter.from_keras_model(model)
+tflite_model = converter.convert()
+
+# Save the model to a .tflite file
+with open('kmeans_model.tflite', 'wb') as f:
+    f.write(tflite_model)

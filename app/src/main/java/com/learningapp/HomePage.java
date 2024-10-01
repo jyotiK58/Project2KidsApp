@@ -15,8 +15,7 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_page_layout); // The layout with bottom navigation and FrameLayout
-
+        setContentView(R.layout.home_page_layout);
         // Initialize the bottom navigation buttons
         home = findViewById(R.id.home);
         progress = findViewById(R.id.progress);
@@ -41,6 +40,6 @@ public class HomePage extends AppCompatActivity {
             transaction.replace(R.id.container, new ProfileFragment());
         }
 
-        transaction.commit(); // Apply the transaction
+        transaction.commit();
     }
 }

@@ -1,19 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/results_text_view"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@mipmap/background"
-        android:padding="16dp"
-        android:text="Your Results!"
-        android:textColor="@color/correct_color"
-        android:textSize="24sp" />
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/results_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Results"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:padding="16dp" />
+
+        <Button
+            android:id="@+id/retry_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retry Quiz"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/home_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go to Home"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+
+</ScrollView>

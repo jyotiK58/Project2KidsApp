@@ -48,7 +48,7 @@ public class ManageSetting extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Handle logout functionality
-                logoutUser();
+//                logoutUser();
             }
         });
 
@@ -74,57 +74,57 @@ public class ManageSetting extends AppCompatActivity {
         });
     }
 
-    private void logoutUser() {
-        String logoutUrl = "http://10.0.2.2/PhpForKidsLearninApp/logout.php"; // Replace with your actual server URL
-
-        // Clear SharedPreferences (remove saved username, password, and user_id)
-        SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();  // This clears all the saved session data
-        editor.apply();
-
-        // Make a JSON Object Request to log out from the server (optional, depending on server-side session management)
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET,
-                logoutUrl,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            String status = response.getString("status");
-                            if (status.equals("success")) {
-                                Toast.makeText(ManageSetting.this, "Logout successful", Toast.LENGTH_SHORT).show();
-
-                                // Redirect to login page after successful logout
-                                redirectToLogin();
-                            } else {
-                                Toast.makeText(ManageSetting.this, "Logout failed: " + response.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(ManageSetting.this, "Logout failed", Toast.LENGTH_SHORT).show();
-                            redirectToLogin(); // Proceed with redirection even if server response failed
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ManageSetting.this, "Network error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                        redirectToLogin();  // Proceed with redirection in case of network error
-                    }
-                }
-        );
-
-        // Add the request to the Volley request queue
-        requestQueue.add(jsonObjectRequest);
-    }
+//    private void logoutUser() {
+//        String logoutUrl = "http://10.0.2.2/PhpForKidsLearninApp/logout.php"; // Replace with your actual server URL
+//
+//        // Clear SharedPreferences (remove saved username, password, and user_id)
+//        SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.clear();  // This clears all the saved session data
+//        editor.apply();
+//
+//        // Make a JSON Object Request to log out from the server (optional, depending on server-side session management)
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+//                Request.Method.GET,
+//                logoutUrl,
+//                null,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        try {
+//                            String status = response.getString("status");
+//                            if (status.equals("success")) {
+//                                Toast.makeText(ManageSetting.this, "Logout successful", Toast.LENGTH_SHORT).show();
+//
+//
+//                                redirectToLogin();
+//                            } else {
+//                                Toast.makeText(ManageSetting.this, "Logout failed: " + response.getString("message"), Toast.LENGTH_SHORT).show();
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                            Toast.makeText(ManageSetting.this, "Logout failed", Toast.LENGTH_SHORT).show();
+//                            redirectToLogin(); // Proceed with redirection even if server response failed
+//                        }
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Toast.makeText(ManageSetting.this, "Network error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+//                        redirectToLogin();  // Proceed with redirection in case of network error
+//                    }
+//                }
+//        );
+//
+//        // Add the request to the Volley request queue
+//        requestQueue.add(jsonObjectRequest);
+//    }
 
     private void redirectToLogin() {
-        // Redirect to LoginActivity after clearing session
+
         Intent intent = new Intent(ManageSetting.this, LoginActivity.class);
         startActivity(intent);
-        finish();  // Finish current activity to prevent user from returning to it
+        finish();
     }
 }

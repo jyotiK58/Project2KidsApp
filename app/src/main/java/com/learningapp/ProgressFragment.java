@@ -1,9 +1,9 @@
 package com.learningapp;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,38 +26,32 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class ProgressFragment extends Fragment {
 
     private ProgressBar performanceProgressBar;
     private TextView progressPercentageTextView;
-    private TextView clusterTextView;
     private int userId;
+
+    private static final String PREFS_NAME = "LoginPrefs";
+    private static final String KEY_USER_ID = "user_id";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.performance_quiz, container, false);
+        View view = inflater.inflate(R.layout.performance_result, container, false);
 
-        // Initialize UI components
+
         performanceProgressBar = view.findViewById(R.id.performanceProgressBar);
         progressPercentageTextView = view.findViewById(R.id.progressPercentageTextView);
-        clusterTextView = view.findViewById(R.id.clusterTextView);
-
-        // Fetch user ID from shared preferences
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        userId = Integer.parseInt(preferences.getString(LoginActivity.KEY_USER_ID, "-1")); // Retrieve as String and parse
+        SharedPreferences preferences = getActivity().getSharedPreferences(PREFS_NAME, getContext().MODE_PRIVATE);
+        String userIdString = preferences.getString(KEY_USER_ID, "-1");
+        userId = Integer.parseInt(userIdString);
 
 
-        // Log the retrieved user ID
-        Log.d("ProgressFragment", "Retrieved User ID: " + userId);
+//        Log.d("ProgressFragment", "Retrieved User ID: " + userId);
 
         if (userId == -1) {
-            // User ID not found, redirect to login activity
+
             Toast.makeText(getContext(), "Please log in to view your progress", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
@@ -72,21 +66,28 @@ public class ProgressFragment extends Fragment {
     private void fetchUserData() {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
-        String url = "http://10.0.2.2/PhpForKidsLearninApp/performance_quiz.php";
+
+        String url = "http://10.0.2.2/PhpForKidsLearninApp/performance_quiz.php?user_id=" + userId;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-                    List<UserData> userDataList = new ArrayList<>();
                     JSONArray jsonArray = new JSONArray(response);
+                    int totalCorrect = 0;
+                    int totalWrong = 0;
+
+                    // Loop through each category result to sum correct and wrong counts
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        int userId = jsonObject.getInt("user_id");
-                        int correctCount = jsonObject.getInt("correct_answers_count");
-                        int wrongCount = jsonObject.getInt("wrong_answers_count");
-                        userDataList.add(new UserData(userId, correctCount, wrongCount));
+                        totalCorrect += jsonObject.getInt("correct_answers_count");
+                        totalWrong += jsonObject.getInt("wrong_answers_count");
                     }
-                    applyKMeansClustering(userDataList);
+
+                    // Calculate the percentage of correct answers
+                    int totalQuestions = totalCorrect + totalWrong;
+                    int percentageCorrect = (totalQuestions > 0) ? (int) ((totalCorrect / (float) totalQuestions) * 100) : 0;
+
+                    updateProgressBar(percentageCorrect);
                 } catch (Exception e) {
                     Log.e("ProgressFragment", "Parsing error: " + e.getMessage(), e);
                 }
@@ -101,48 +102,14 @@ public class ProgressFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
-    private void applyKMeansClustering(List<UserData> userDataList) {
-        List<float[]> data = new ArrayList<>();
-        for (UserData userData : userDataList) {
-            data.add(new float[]{userData.correctCount, userData.wrongCount});
-        }
-
-        KMeans kmeans = new KMeans(3, 100);
-        kmeans.fit(data);
-
-        Map<Integer, Integer> userClusterMap = new HashMap<>();
-        for (UserData userData : userDataList) {
-            int cluster = kmeans.predict(new float[]{userData.correctCount, userData.wrongCount});
-            userClusterMap.put(userData.userId, cluster);
-        }
-
-        updateUI(userDataList, userClusterMap);
-    }
-
-    private void updateUI(List<UserData> userDataList, Map<Integer, Integer> userClusterMap) {
-        if (userClusterMap.containsKey(userId)) {
-            int cluster = userClusterMap.get(userId);
-            clusterTextView.setText("Cluster: " + cluster);
-
-            // Find the user's data
-            for (UserData userData : userDataList) {
-                if (userData.userId == userId) {
-                    int totalQuestions = userData.correctCount + userData.wrongCount;
-                    if (totalQuestions > 0) {
-                        int percentageCorrect = (int) ((userData.correctCount / (float) totalQuestions) * 100);
-                        updateProgressBar(percentageCorrect);
-                    } else {
-                        updateProgressBar(0);
-                    }
-                    break;
-                }
-            }
-        }
-    }
-
     private void updateProgressBar(int percentageCorrect) {
         if (performanceProgressBar != null && progressPercentageTextView != null) {
-            performanceProgressBar.setProgress(percentageCorrect);
+
+            ObjectAnimator progressAnimator = ObjectAnimator.ofInt(performanceProgressBar, "progress", 0, percentageCorrect);
+            progressAnimator.setDuration(1000);
+            progressAnimator.start();
+
+
             progressPercentageTextView.setText(percentageCorrect + "%");
         }
     }

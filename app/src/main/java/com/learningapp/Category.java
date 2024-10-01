@@ -56,7 +56,7 @@ public class Category extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Add text change listener for search functionality
+
         searchInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -86,11 +86,11 @@ public class Category extends AppCompatActivity {
                             String categoryName = categoryObj.getString("type");
                             String imageUrl = categoryObj.getString("image_url");
 
-                            // Add to the list of categories
+
                             CategoryItem categoryItem = new CategoryItem(categoryName, imageUrl);
                             categoryList.add(categoryItem);
                         }
-                        // Show all categories initially
+
                         showCategories(categoryList);
                     } catch (JSONException e) {
                         Log.e(TAG, "Error parsing response", e);
@@ -106,7 +106,7 @@ public class Category extends AppCompatActivity {
     }
 
     private void showCategories(List<CategoryItem> categories) {
-        gridcategory.removeAllViews(); // Clear previous views
+        gridcategory.removeAllViews();
         for (CategoryItem category : categories) {
             addCategoryCard(category.getName(), category.getImageUrl());
         }
@@ -135,18 +135,18 @@ public class Category extends AppCompatActivity {
     }
 
     private void filterCategories(String query) {
-        filteredList.clear(); // Clear previous filtered results
+        filteredList.clear();
 
         for (CategoryItem category : categoryList) {
             if (category.getName().toLowerCase().contains(query.toLowerCase())) {
-                filteredList.add(category); // Add to filtered list if matches
+                filteredList.add(category);
             }
         }
 
-        showCategories(filteredList); // Show filtered results
+        showCategories(filteredList);
     }
 
-    // Inner class to represent a Category Item
+
     private static class CategoryItem {
         private final String name;
         private final String imageUrl;

@@ -58,7 +58,7 @@ public class CategoryImages extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         ic_back = findViewById(R.id.ic_back);
 
-        // Set up a grid layout manager
+
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -76,7 +76,7 @@ public class CategoryImages extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Track the start time when the activity is created
+
         startTime = System.currentTimeMillis();
     }
 
@@ -87,21 +87,21 @@ public class CategoryImages extends AppCompatActivity {
         long endTime = System.currentTimeMillis();
         long timeSpent = endTime - startTime;
 
-        // Send the time spent to the server
+
         sendTimeToServer(timeSpent);
     }
 
     private void sendTimeToServer(long timeSpent) {
         String url = "http://10.0.2.2/PhpForKidsLearninApp/track_time.php";
 
-        // Fetch user ID from SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE); // Match with the key used in LoginActivity
-        String userId = sharedPreferences.getString(KEY_USER_ID, null); // Updated to use the correct key
+
+        SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        String userId = sharedPreferences.getString(KEY_USER_ID, null);
 
         if (userId == null) {
             Log.e(TAG, "User ID is missing");
-            Toast.makeText(this, "User ID is missing. Please log in again.", Toast.LENGTH_SHORT).show(); // Provide feedback
-            return; // Exit if user ID is not available
+            Toast.makeText(this, "User ID is missing. Please log in again.", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -183,7 +183,7 @@ public class CategoryImages extends AppCompatActivity {
                         }
                     });
 
-            // Handle image click to open a full-screen image activity
+
             holder.imageView.setOnClickListener(v -> {
                 Log.d(TAG, "Image clicked: " + position);
                 Intent intent = new Intent(holder.imageView.getContext(), FullImageActivity.class);

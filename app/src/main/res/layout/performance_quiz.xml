@@ -5,23 +5,26 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/imageIdTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Image:" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/imageIdTextView"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Image:" />-->
 
-    <TextView
-        android:id="@+id/timeSpentTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Time spent:" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/timeSpentTextView"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Time spent:" />-->
 
     <TextView
         android:id="@+id/clusterTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cluster:" />
+        android:textSize="32dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:text="User Progress" />
 
     <!-- ProgressBar for performance -->
     <ProgressBar

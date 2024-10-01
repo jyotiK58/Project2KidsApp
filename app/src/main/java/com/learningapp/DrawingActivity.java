@@ -39,20 +39,20 @@ public class DrawingActivity extends AppCompatActivity {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawingView.clearCanvas(); // Clear the drawing canvas
+                drawingView.clearCanvas();
             }
         });
 
         colorPickerIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showColorPicker(); // Show color picker dialog
+                showColorPicker();
             }
         });
     }
 
     private void showColorPicker() {
-        // Define an array of colors
+
         final int[] colors = {0xFF000000, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFFFFFF00, 0xFFFF00FF, 0xFF00FFFF};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

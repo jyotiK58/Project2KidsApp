@@ -17,7 +17,7 @@ public class DrawingView extends View {
     private Canvas canvas;
     private Paint paint;
     private float lastX, lastY;
-    private Stack<Bitmap> history; // Stack to keep history for redo functionality
+    private Stack<Bitmap> history;
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -26,7 +26,7 @@ public class DrawingView extends View {
 
     private void init() {
         paint = new Paint();
-        paint.setColor(Color.BLACK);  // Default color
+        paint.setColor(Color.BLACK);
         paint.setAntiAlias(true);
         paint.setStrokeWidth(10);
         paint.setStyle(Paint.Style.STROKE);

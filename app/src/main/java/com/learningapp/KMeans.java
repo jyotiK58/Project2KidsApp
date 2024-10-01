@@ -12,11 +12,11 @@ public class KMeans {
     }
 
     public void fit(List<float[]> data) {
-        // Implement the K-means algorithm here
+
     }
 
     public int predict(float[] dataPoint) {
-        // Return the cluster index for the given data point
-        return 0; // Placeholder implementation
+
+        return 0;
     }
 }

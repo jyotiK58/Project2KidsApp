@@ -104,7 +104,7 @@ public class HomeFragment extends Fragment {
         });
 
         categoryItemQuiz.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), QuizActivity.class);
+            Intent intent = new Intent(getActivity(), DrawingActivity.class);
             startActivity(intent);
         });
 

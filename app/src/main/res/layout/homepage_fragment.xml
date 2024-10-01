@@ -220,7 +220,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Play Quiz"
+                        android:text="Paint"
                         android:textColor="#3F51B5"
                         android:textSize="20sp" />
                 </LinearLayout>
